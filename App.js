@@ -6,11 +6,14 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React,{useEffect} from 'react';
 import 'react-native-gesture-handler';
 import {
   StatusBar,
 } from 'react-native';
+
+import {Provider} from 'react-redux';
+import {store} from './redux/store';
 
 
 import Home from './screens/Home';
@@ -22,9 +25,12 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 const Drawer = createDrawerNavigator();
 
+
 const App= () => {
+
+
   return (
-    <>
+    <Provider store={store}>
       <StatusBar barStyle="dark-content" />
       <NavigationContainer>
         <Drawer.Navigator InitialRoute="Home">
@@ -34,7 +40,7 @@ const App= () => {
         <Drawer.Screen name="Register" component={Register} />
         </Drawer.Navigator>
       </NavigationContainer>
-    </>
+    </Provider>
   );
 };
 

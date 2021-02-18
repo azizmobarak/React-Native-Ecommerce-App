@@ -4,9 +4,9 @@ import {View,Text} from 'react-native';
 
 import Header from './header';
 
-export default Register = ()=>{
+export default Register = ({navigation})=>{
     return (
-        <Header screen="Register" component={Main} />
+        <Header screen="Register" component={Main} navigation={navigation} />
     )
 }
 

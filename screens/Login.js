@@ -2,12 +2,10 @@ import React from 'react'
 import {View,Text} from 'react-native';
 import Header from './header';
 
-import {createStackNavigator} from '@react-navigation/stack';
-const Stack = createStackNavigator();
 
-export default Login = ()=>{
+export default Login = ({navigation})=>{
     return (
-       <Header screen="Login" component={Main} />
+       <Header screen="Login" component={Main} navigation={navigation} />
     )
 }
 

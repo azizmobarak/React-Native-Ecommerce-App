@@ -4,9 +4,9 @@ import {View,Text} from 'react-native';
 
 import Header from './header';
 
-export default Cart = ()=>{
+export default Cart = ({navigation})=>{
     return (
-        <Header screen="Cart" component={Main} />
+        <Header screen="Cart" component={Main} navigation={navigation} />
     )
 }
 
