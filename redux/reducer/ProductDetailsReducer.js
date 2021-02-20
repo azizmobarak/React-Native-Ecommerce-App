@@ -1,14 +1,14 @@
 var initial =[]
 
 
-const SuggestionReduser = (state=initial,action)=>{
-
+const ProductDetailsReducer = (state=initial,action)=>{
+    
    switch(action.type){
-       case "suggest" : 
+       case "details" : 
          return state=action.payload;
         default :
           return state;
    }
 }
 
-export {SuggestionReduser}
+export {ProductDetailsReducer}

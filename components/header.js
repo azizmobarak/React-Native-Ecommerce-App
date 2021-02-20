@@ -4,6 +4,7 @@ const Stack = createStackNavigator();
 import {Text,View,StyleSheet,TouchableOpacity,TextInput,TouchableWithoutFeedback,Image,TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Searchbar } from 'react-native-paper';
+import Product from '../screens/Product';
 
 
 
@@ -19,6 +20,7 @@ export default Header = (props)=>{
           
            }
        }
+       initialRouteName="Home"
       >
       <Stack.Screen
         name={props.screen}
@@ -31,10 +33,21 @@ export default Header = (props)=>{
     headerMode="screen"
     screenOptions={
         {
+            headerTintColor:"black",
            headerLeft:()=>{
                return <TouchableWithoutFeedback style={{ backgroundColor:"white" }} onPress={()=>props.navigation.goBack()} >
                     <Image style={{ width:30,marginLeft:10, }} source={require('../assets/back2.png')} />
                   </TouchableWithoutFeedback>
+           },
+           headerRight:()=>{
+            return(
+            <View style={styles.cartview}>
+            <TouchableHighlight>
+            <Icon style={styles.cart} color="#8e9991" size={30} name="shopping-outline" />
+            </TouchableHighlight>
+            <Text style={ styles.txtcart }>0</Text>
+            </View>
+            )
            }
         }
     }
@@ -106,7 +119,8 @@ const styles = StyleSheet.create({
       padding: 10,
     },
     cart:{
-     marginTop:6
+     marginTop:0,
+     marginRight:4
     },
     searchbar:{
      width:"100%",
@@ -114,15 +128,17 @@ const styles = StyleSheet.create({
      padding:1,
      height:45,
      fontSize:18,
-     marginTop:10,
-     backgroundColor:"#e0ded7",
+     backgroundColor:"#e0ded2",
     },
     searchview:{
         width:"100%",
         flex:1,
         flexDirection:"row",
         justifyContent:"flex-start",
-        alignItems:"center"
+        alignItems:"center",
+        elevation:1,
+        shadowColor:"white",
+        shadowOpacity:.4,
     },
     txtcart:{
         display:"flex",
@@ -132,7 +148,7 @@ const styles = StyleSheet.create({
         marginLeft:10,
     },
     cartview:{
-        marginTop:6,
+        marginTop:1,
         height:40,
         justifyContent:"center"
     }

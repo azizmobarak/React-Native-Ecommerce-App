@@ -22,6 +22,7 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import Product from './screens/Product';
 
 const Drawer = createDrawerNavigator();
 
@@ -38,6 +39,7 @@ const App= () => {
         <Drawer.Screen name="Cart" component={Cart} />
         <Drawer.Screen name="Login" component={Login} />
         <Drawer.Screen name="Register" component={Register} />
+        <Drawer.Screen name="Product" component={Product} />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>
