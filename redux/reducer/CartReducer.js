@@ -1,14 +1,14 @@
-var initial=[];
+var initial =0;
 
 
-const CartReducer =(state=initial,action)=>{
-    switch(action.type){
-        case "cart" : 
-            state = [state,...action.data];
-            break;
-        default:
-            return [];
-    }
+const Cartcount = (state=initial,action)=>{
+    
+   switch(action.type){
+       case "count" : 
+         return state=action.payload;
+        default :
+          return state;
+   }
 }
 
-export {CartReducer}
+export {Cartcount}

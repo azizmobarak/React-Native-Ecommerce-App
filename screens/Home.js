@@ -4,6 +4,7 @@ import Header from '../components/header';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {createStackNavigator} from '@react-navigation/stack';
 const Stack = createStackNavigator();
+import AsyncStorage from '@react-native-community/async-storage';
 
 import List from '../components/List';
 import {useSelector,useDispatch} from "react-redux"
@@ -12,7 +13,7 @@ import {categoriesAction as showcategories} from '../redux/actions/categoriesAct
 import Suggestions from '../components/suggestions';
 import CategoriesList from '../components/listcategories';
 import SecondProductList from '../components/secondProductList';
-
+import {CartLength} from '../redux/actions/CartAction';
 
 export default Home = ({navigation})=>{
     return (
@@ -39,10 +40,12 @@ const Main = ({navigation})=>{
     const categories = useSelector(state=>state.categoreis);
     
    // passing data to the store
-    useEffect(()=>{
+useEffect(()=>{
         showproducts("data",dispatch);
         showcategories("categories",dispatch);
-    },[]);
+        CartLength(dispatch);
+},[]);
+
 
 
     return (
@@ -68,7 +71,7 @@ const Main = ({navigation})=>{
 
            <View style={styles.headerbar}>
                <Text style={styles.bartext}>
-                   Shop by department
+                  Deal of the Day
                </Text>
                <TouchableHighlight>
                <View style={styles.seemore}>

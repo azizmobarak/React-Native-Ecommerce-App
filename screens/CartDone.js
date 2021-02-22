@@ -5,21 +5,25 @@ import {RadioButton} from "react-native-paper";
 import Header from '../components/header';
 import RBSheet from "react-native-raw-bottom-sheet";
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Picker} from '@react-native-picker/picker';
 
 
-
-export default Cart = ({navigation})=>{
+export default CartDone = ({navigation})=>{
     return (
         <Header screen="Cart" component={Main} navigation={navigation} />
     )
 }
 
-const Main = ({navigation})=>{
+const Main = ()=>{
 
 const [Cart,setCart] = useState([]);
 const sheet = useRef();
 const [selectAll,setSelectAll] = useState("unchecked");
+const [size,setsize] = useState({id:"",value:""});
+const [color,setcolor] = useState({id:"",value:""});
 const [total,settotal] = useState(0);
+
 
 const getTotal=()=>{
  var total =0;
@@ -53,11 +57,9 @@ useEffect(()=>{
         <View style={styles.container}>
             
             <View style={styles.header}>
-                <TouchableHighlight onPress={()=>console.log("edite")}>
-                    <Text style={styles.headertxt}>Edit</Text>
-                </TouchableHighlight>
-                 
-                <View style={styles.headerRadio}>
+                <View></View>
+              
+              <View style={styles.headerRadio}>
                 <Text style={styles.headertxt}>All</Text>
                 <RadioButton
                    value="all"
@@ -75,7 +77,7 @@ useEffect(()=>{
                    {
                        Cart.map((item,i)=>{
                            return(
-                    <View  key={item.id} style={{ width:"100%",dipslay:'flex',alignItems:"center" }}>
+                        <View key={item.id} style={{ width:"100%",dipslay:'flex',alignItems:"center" }}>
                         <View style={styles.cartproduct}>
                         <Image style={styles.productimg} source={{ uri:item.url }} />
                             <View style={styles.productDetailsContainer}>
@@ -83,20 +85,54 @@ useEffect(()=>{
                             <View style={styles.carddetails}>
                               <View>
                                 <Text style={styles.productprice}>{item.price}$</Text>
-                                <Text>Color: {item.color}</Text>
+                                  <View style={{ display:'flex',flexDirection:"row",justifyContent:"space-between",alignItems:'center',width:100 }}>
+                                    <Text>Color</Text>
+                                <Picker
+                                   style={{ width:60 }}
+                                   selectedValue={color.id===i ? color.value : ""}
+                                   style={{height: 50, width: 100}}
+                                   onValueChange={(itemValue, itemIndex) =>
+                                   setsize({id:i,value:itemValue})
+                                  }>
+                                   {
+                                       item.color.split(',').map((item,i)=>{
+                                           return <Picker.Item  key={i} label={item} value={item} />
+                                       })
+                                   }
+                                </Picker>
+                                   </View>
                             </View>
                             <View>
-                                <Text style={styles.quantity}>{item.number}</Text>
-                                <Text>size: {item.size}</Text>
+                                <View style={{ dipslay:'flex',flexDirection:'row',justifyContent:"space-between",alignItems:"center",width:100 }}>
+                             <TouchableOpacity style={styles.smallbtn} > 
+                                 <Text style={{ fontSize:30 }}>+</Text>
+                             </TouchableOpacity>
+                             <Text style={styles.quantity}>{item.number}</Text>
+                             <TouchableOpacity style={styles.smallbtn}>
+                                 <Text style={{ fontSize:30}}>-</Text>
+                             </TouchableOpacity>
+                                </View>
+                              <View style={{ display:'flex',flexDirection:"row",justifyContent:"space-between",alignItems:'center',width:100 }}>
+                              <Text>size: </Text>
+                                <Picker
+                                    style={{ width:60 }}
+                                   selectedValue={size.id===i ? size.value : ""}
+                                   style={{height: 50, width: 100}}
+                                   onValueChange={(itemValue, itemIndex) =>
+                                   setsize({id:i,value:itemValue})
+                                  }>
+                                   {
+                                       item.size.split(',').map((item,i)=>{
+                                           return <Picker.Item  key={i} label={item} value={item} />
+                                       })
+                                   }
+                                </Picker>
+                              </View>
                             </View>
                             <View style={styles.radiobutton}>
-                            <RadioButton
-                               value={"radio"+i}
-                               status={selectAll==="checked" ? checked : "unckecked"}
-                               onPress={(status) =>console.log(status)}
-                               color="blue"
-                               style={{ width:50 }}
-                            />
+                             <TouchableOpacity>
+                                <Icon name="close" size={30} />
+                             </TouchableOpacity>
                             </View>
                               </View>
                            </View>
@@ -128,7 +164,6 @@ useEffect(()=>{
               <Text style={styles.txtprice}>25% - ${(25*total)/100}</Text>
            </View>
           </View>
-
           <View style={styles.sheet}>
               <Text style={styles.txttotal}>Total</Text>
               <Text style={styles.txtpriceend}>
@@ -137,8 +172,8 @@ useEffect(()=>{
           </View>
 
          <View style={styles.btncart}>
-              <TouchableOpacity onPress={()=>console.log('hello')} style={styles.nextButton}>
-                   <Text style={styles.btncarttext} >Next</Text>
+              <TouchableOpacity onPress={()=>console.log('next')} style={styles.nextButton}>
+                   <Text style={styles.btncarttext} >DONE</Text>
               </TouchableOpacity>
          </View>
 
@@ -147,13 +182,11 @@ useEffect(()=>{
 
 
        <View style={{ marginTop:100 }}>
-
        <View style={styles.btncart}>
-              <TouchableOpacity onPress={()=>{/*sheet.current.open()*/ navigation.navigate('CartDone') }} style={styles.nextButton}>
-                   <Text style={styles.btncarttext} >Open</Text>
+              <TouchableOpacity onPress={()=>sheet.current.open()} style={styles.nextButton}>
+                   <Text style={styles.btncarttext} >DONE</Text>
               </TouchableOpacity>
          </View>
-
        </View>
         </View>
         </ScrollView>
@@ -163,7 +196,7 @@ useEffect(()=>{
 const styles= StyleSheet.create({
     container:{
         marginTop:50,
-        width:"100%"
+        width:"100%",
     },
     header:{
         display:'flex',
@@ -276,18 +309,26 @@ const styles= StyleSheet.create({
         display:'flex',
         justifyContent:"center",
         alignItems:"center",
-        borderRadius:10,
-        zIndex:9999
+        borderRadius:10
     },
     btncarttext:{
         color:"white",
         fontSize:15,
+        padding:2
+    },
+    smallbtn:{
+        padding:0,
+        borderColor:"black",
+        borderWidth:0.7,
+        width:30,
+        height:30,
+        display:'flex',
+        justifyContent:"center",
+        alignItems:"center",
     },
     productLine:{
         marginTop:10,
         width:"90%",
-        borderColor:"black",
-        borderWidth:0.6,
         borderColor:"gray",
         borderWidth:0.5,
     }

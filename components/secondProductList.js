@@ -26,13 +26,14 @@ const sendProduct=(item)=>{
        id:item.id,
        url:item.url,
        title:item.title,
-       price:item.price
+       price:item.price,
+       color:item.color,
+       size:item.size
       },
-      dispatch);
+ dispatch);
     
       props.navigation.navigate('Product');
-  
-    }
+}
 
 
  return(

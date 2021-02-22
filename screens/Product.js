@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import {View,Text,StyleSheet, SafeAreaView,ScrollView,Image,Button} from 'react-native';
+import {View,Text,StyleSheet, SafeAreaView,ScrollView,Image,Button,ToastAndroid} from 'react-native';
 import Header from '../components/header';
 import {useSelector} from 'react-redux';
 import { Rating,AirbnbRating } from 'react-native-ratings';
@@ -7,7 +7,8 @@ import {Avatar} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {useDispatch} from "react-redux";
-import {addToCart} from '../redux/actions/CartAction';
+import AsyncStorage from '@react-native-community/async-storage';
+import {CartLength} from '../redux/actions/CartAction';
 
 export default Product = ({navigation})=>{
     return (
@@ -22,16 +23,45 @@ const Main = ()=>{
  const dispatch = useDispatch();
 
 
-const addproduct=()=>{
-var product={
-    id : details.id,
-    title : details.title,
-    price:details.price
+const addproduct=async()=>{
+
+    var product={
+        id : details.id,
+        title : details.title,
+        url : details.url,
+        price:details.price,
+        number : 1,
+        color:details.color,
+        size:details.size
+    }
+
+ var data = await AsyncStorage.getItem('cart');
+if(data!=null){
+        var CartData =await JSON.parse(data);
+        // increment product
+       var verify =  VerifyExistence(CartData,product.id);
+        if(typeof(verify)!="undefined"){
+            ToastAndroid.show("Product already exist in your Cart", ToastAndroid.SHORT);
+        }else{
+            CartData.push(product)
+            AsyncStorage.setItem('cart',JSON.stringify(CartData))
+            ToastAndroid.show("Product Added To Cart", ToastAndroid.SHORT);
+        }
+}else{
+          var cart_tab = [];
+          cart_tab.push(product)
+          var JsonCartTab = JSON.stringify(cart_tab)
+          AsyncStorage.setItem('cart',JsonCartTab)
+          ToastAndroid.show("Product Added To Cart", ToastAndroid.SHORT);
 }
 
-addToCart(product,dispatch);
-
+CartLength(dispatch);
 } 
+
+const VerifyExistence=(Cart,id)=>{
+var result = Cart.find(item=>item.id==id);
+return result;
+}
 
 useEffect(() => {
     console.log(details)

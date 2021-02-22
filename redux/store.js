@@ -3,14 +3,14 @@ import {productReducer} from './reducer/productReducers';
 import {SuggestionReduser} from './reducer/suggestionReducer';
 import {CategoriesReduce} from './reducer/CategoriesReducer';
 import {ProductDetailsReducer} from './reducer/ProductDetailsReducer';
-import { CartReducer } from './reducer/CartReducer';
+import {Cartcount} from './reducer/CartReducer';
 
 const Reducers = combineReducers({
  productlist : productReducer,
  suggestion : SuggestionReduser,
  categoreis : CategoriesReduce,
  details: ProductDetailsReducer,
- cart : CartReducer
+ CartCount : Cartcount
 })
 
 const store = createStore(Reducers);

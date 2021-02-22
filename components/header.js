@@ -1,100 +1,138 @@
-import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {AsyncStorage} from '@react-native-community/async-storage'; 
+import React, { useContext, useEffect, useState } from 'react';
+import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
 const Stack = createStackNavigator();
-import {Text,View,StyleSheet,TouchableOpacity,TextInput,TouchableWithoutFeedback,Image,TouchableHighlight} from 'react-native';
+import {Text,View,StyleSheet,TouchableOpacity,TextInput,
+    TouchableWithoutFeedback,Image,TouchableHighlight,Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Searchbar } from 'react-native-paper';
 import Product from '../screens/Product';
+import {useSelector} from 'react-redux'
+import {AuthContext} from '../auth/index';
+import auth from '@react-native-firebase/auth';
 
 
 
 export default Header = (props)=>{
+
+
+
+ // const [user,setUser] = useContext(AuthContext);
+//  const [initializing,setInitializing]=useState(true);
+
+// const onAuthStateChanged=(user)=>{
+// setUser(user);
+// if(initializing) setInitializing(false);
+// }
+
+
+// useEffect(()=>{
+// const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+// return subscriber;
+// },[]);
+
+
+
+// if(initializing) return null;
     
     return (
-       props.screen==="Home" ?
-       <Stack.Navigator
-       headerMode="screen"
-       screenOptions={
-           {
-              header:()=><CustomHomeHeader header={props}/>
-          
-           }
-       }
-       initialRouteName="Home"
-      >
-      <Stack.Screen
-        name={props.screen}
-        component={props.component}
-        options={{ title:()=><View></View> } }
-      />
-    </Stack.Navigator>
+     props.screen==="Home" ?
+       <HomeHeader cartLength={5} headerprops={props}/>
     :
-    <Stack.Navigator
-    headerMode="screen"
-    screenOptions={
-        {
-            headerTintColor:"black",
-           headerLeft:()=>{
-               return <TouchableWithoutFeedback style={{ backgroundColor:"white" }} onPress={()=>props.navigation.goBack()} >
-                    <Image style={{ width:30,marginLeft:10, }} source={require('../assets/back2.png')} />
-                  </TouchableWithoutFeedback>
-           },
-           headerRight:()=>{
-            return(
-            <View style={styles.cartview}>
-            <TouchableHighlight>
-            <Icon style={styles.cart} color="#8e9991" size={30} name="shopping-outline" />
-            </TouchableHighlight>
-            <Text style={ styles.txtcart }>0</Text>
-            </View>
-            )
-           }
+      <AllpagesHeader page={props}/>
+    )
+}
+
+
+const HomeHeader=(props)=>{
+
+const cartcount = useSelector(state=>state.CartCount);
+
+    return (
+        <Stack.Navigator
+        headerMode="screen"
+        screenOptions={
+            {
+               header:()=>{
+                   return(
+                    <View style={styles.header}>
+                    <View style={styles.menu}>
+            
+                    <TouchableOpacity onPress={()=>props.headerprops.navigation.openDrawer()} style={styles.menubtn}>
+                         <Icon style={styles.menu} color="#8e9991" size={30} name="menu" />
+                     </TouchableOpacity>
+            
+                    </View>
+                    <View style={styles.search}>
+                    <View style={styles.searchview}>
+            
+                    <Searchbar
+                      placeholder="what are you looking for?"
+                     onChangeText={()=>console.log('here')}
+                     value=""
+                     style={styles.searchbar}
+                    //  icon={()=><Icon size={40} name="search" />}
+                          />
+            
+                    </View>
+                    </View>
+                    <View style={styles.cartview}>
+                    <TouchableHighlight>
+                    <Icon style={styles.cart} color="#8e9991" size={30} name="shopping-outline" />
+                    </TouchableHighlight>
+                    <Text style={ styles.txtcart }>{cartcount}</Text>
+                    </View>
+                </View>
+                   )
+               }
+           
+            }
         }
-    }
-   >
-   <Stack.Screen
-     name={props.screen}
-     component={props.component}
-     options={{ title:props.screen} }
-   />
- </Stack.Navigator>
-       
+        initialRouteName="Home"
+       >
+       <Stack.Screen
+         name={props.headerprops.screen}
+         component={props.headerprops.component}
+         options={{ title:()=><View></View> } }
+       />
+     </Stack.Navigator>
     )
 }
 
 
 
-
-const CustomHomeHeader=(props)=>{
+const AllpagesHeader=(props)=>{
     return(
-        <View style={styles.header}>
-        <View style={styles.menu}>
-
-        <TouchableOpacity onPress={()=>props.header.navigation.openDrawer()} style={styles.menubtn}>
-             <Icon style={styles.menu} color="#8e9991" size={30} name="menu" />
-         </TouchableOpacity>
-
-        </View>
-        <View style={styles.search}>
-        <View style={styles.searchview}>
-
-        <Searchbar
-          placeholder="what are you looking for?"
-         onChangeText={()=>console.log('here')}
-         value=""
-         style={styles.searchbar}
-        //  icon={()=><Icon size={40} name="search" />}
-              />
-
-        </View>
-        </View>
-        <View style={styles.cartview}>
-        <TouchableHighlight>
-        <Icon style={styles.cart} color="#8e9991" size={30} name="shopping-outline" />
-        </TouchableHighlight>
-        <Text style={ styles.txtcart }>0</Text>
-        </View>
-    </View>
+        <Stack.Navigator
+    headerMode="screen"
+    screenOptions={
+        {
+            headerTintColor:"black",
+           headerLeft:()=>{
+               return  (
+               <View style={styles.cartheader}>
+               <TouchableWithoutFeedback style={{ backgroundColor:"white" }} onPress={()=>props.page.navigation.goBack()} >
+               <Image style={{ width:30,marginLeft:10, }} source={require('../assets/back2.png')} />
+                </TouchableWithoutFeedback>
+               </View>
+               )
+           },
+           headerRight:()=>{
+               return(
+                <View style={{ width: (Dimensions.get('window').width/2)+30 }}>
+                    <Text style={styles.carttitle}>{props.page.screen==="Cart" ? "MyCart" : props.page.screen }</Text>
+                </View>
+               )
+           }
+        }
+    }
+   >
+   <Stack.Screen
+     name={props.page.screen}
+     component={props.page.component}
+     options={{ title:null} }
+   />
+ </Stack.Navigator>
     )
 }
 
@@ -120,7 +158,7 @@ const styles = StyleSheet.create({
     },
     cart:{
      marginTop:0,
-     marginRight:4
+     marginRight:3
     },
     searchbar:{
      width:"100%",
@@ -128,7 +166,7 @@ const styles = StyleSheet.create({
      padding:1,
      height:45,
      fontSize:18,
-     backgroundColor:"#e0ded2",
+     backgroundColor:"#f0e9e9",
     },
     searchview:{
         width:"100%",
@@ -145,11 +183,28 @@ const styles = StyleSheet.create({
         position:"absolute",
         justifyContent:"center",
         alignItems:"center",
-        marginLeft:10,
+        marginLeft:"35%",
+        marginTop:5,
+        color:"red",
+        height:15,
+        fontWeight:"bold"
     },
     cartview:{
         marginTop:1,
         height:40,
         justifyContent:"center"
+    },
+    cartheader:{
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"space-between",
+        width:"62%",
+        padding: 10,
+    
+    },
+    carttitle:{
+        fontSize:23,
+        fontWeight:"bold",
+        fontFamily:'serif',
     }
 })
