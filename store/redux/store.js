@@ -11,7 +11,7 @@ const Reducers = combineReducers({
  categoreis : CategoriesReduce,
  details: ProductDetailsReducer,
  CartCount : Cartcount
-})
+});
 
 const store = createStore(Reducers);
 

@@ -38,7 +38,7 @@ if(email!="" && email!=null && password!="" && password!=null && isChecked==true
         console.log('That email address is invalid!');
       }
   
-      console.error("last one",error);
+      console.log("last one",error);
     });
 }
 }

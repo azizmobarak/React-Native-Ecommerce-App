@@ -35,29 +35,29 @@ const DrawerNav = createDrawerNavigator();
 
 const App=() => {
 
-const androidConfig = {
-    clientId: '904194018028-uq55eb1gkjn11g6a130dsanr54c4hacv.apps.googleusercontent.com',
-    appId: '1:904194018028:android:3751d4d65f2f9b223bb3c9',
-    apiKey: '',
-    databaseURL: 'https://secondstore-a692ceurope-west6.firebasedatabase.app',
-    projectId: 'secondstore-a692c',
+// const androidConfig = {
+//     clientId: '904194018028-uq55eb1gkjn11g6a130dsanr54c4hacv.apps.googleusercontent.com',
+//     appId: '1:904194018028:android:3751d4d65f2f9b223bb3c9',
+//     apiKey: '',
+//     databaseURL: 'https://secondstore-a692ceurope-west6.firebasedatabase.app',
+//     projectId: 'secondstore-a692c',
   
-    // enable persistence by adding the below flag
-    persistence: true,
-  };
+//     // enable persistence by adding the below flag
+//     persistence: true,
+//   };
 
-  var config = {
-    apiKey: "AIzaSyC1_94_Cdo1JmDoeVHJ3NCJttCFHx53Hwo",
-    authDomain: "secondstore-a692c.firebaseapp.com",
-    databaseURL: "https://secondstore-a692c.europe-west6.firebasedatabase.app",
-    storageBucket: "bucket.appspot.com"
-  };
+//   var config = {
+//     apiKey: "AIzaSyC1_94_Cdo1JmDoeVHJ3NCJttCFHx53Hwo",
+//     authDomain: "secondstore-a692c.firebaseapp.com",
+//     databaseURL: "https://secondstore-a692c.europe-west6.firebasedatabase.app",
+//     storageBucket: "bucket.appspot.com"
+//   };
 
-if (!firebase.apps.length) {
-    firebase.initializeApp(config);
- }else {
-    firebase.app(); // if already initialized, use that one
- }
+// if (!firebase.apps.length) {
+//     firebase.initializeApp(config);
+//  }else {
+//     firebase.app(); // if already initialized, use that one
+//  }
   
 
   // Get a reference to the database service
